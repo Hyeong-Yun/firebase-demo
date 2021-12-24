@@ -1,10 +1,20 @@
-import firebase from 'firebase';
+import firebaseApp from './firebase';
+import { GoogleAuthProvider,signInWithPopup ,getAuth,GithubAuthProvider } from "firebase/auth";
 
 class AuthService{
   login(providerName){
-    const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
-    return firebase.auth().signInWithPopup(authProvider);
+    let authProvider = '';
+    if(providerName === 'Google'){
+      authProvider = new GoogleAuthProvider(firebaseApp);
+    }else if(providerName === 'GitHub'){
+      authProvider = new GithubAuthProvider(firebaseApp);
+    }else{
+      console.log('Error')
+    }
+
+    const auth = getAuth();
+    signInWithPopup(auth, authProvider)
   }
 }
 
-export default AuthAuthService;
+export default AuthService;
